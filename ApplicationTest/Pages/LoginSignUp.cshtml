@@ -1,0 +1,112 @@
+﻿@page
+@model ApplicationTest.Pages.LoginSignUpModel
+@{
+}
+
+<style>
+    .form-container {
+        width: 300px;
+        margin: 20px auto;
+        display: none;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    label {
+        display: block;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 5px;
+    }
+
+    button {
+        padding: 5px;
+        width: 100%;
+    }
+
+    .toggle-options {
+        width: 300px;
+        margin: 20px auto;
+        text-align: center;
+    }
+
+    .toggle-options input[type="radio"] {
+        margin: 0 5px;
+    }
+</style>
+
+<div class="toggle-options">
+    <label>
+        <input type="radio" name="formToggle" value="login" checked onchange="toggleForm()"> Login
+    </label>
+    <label>
+        <input type="radio" name="formToggle" value="signup" onchange="toggleForm()"> Sign Up
+    </label>
+</div>
+
+<div class="form-container" id="login-form">
+    <h3>Login</h3>
+    @if (TempData["Message"] != null)
+    {
+        <div style="color:black; font-weight:bold;">
+            @TempData["Message"]
+        </div>
+    }
+    <form method="post" asp-page-handler="Login">
+        <div class="form-group">
+            <label for="login-username">Username:</label>
+            <input type="text" id="login-username" name="LoginModel.Username" required>
+        </div>
+        <div class="form-group">
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" name="LoginModel.Password" required>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+<div class="form-container" id="signup-form">
+    <h3>Sign Up</h3>
+    @if (TempData["Message"] != null)
+    {
+        <div style="color:black; font-weight:bold;">
+            @TempData["Message"]
+        </div>
+    }
+    <form method="post" asp-page-handler="SignUp">
+        <div class="form-group">
+            <label for="signup-username">Username:</label>
+            <input type="text" id="signup-username" name="SignUpModel.Username" required>
+        </div>
+        <div class="form-group">
+            <label for="signup-email">Email:</label>
+            <input type="email" id="signup-email" name="SignUpModel.Email" required>
+        </div>
+        <div class="form-group">
+            <label for="signup-password">Password:</label>
+            <input type="password" id="signup-password" name="SignUpModel.Password" required>
+        </div>
+        <div class="form-group">
+            <label for="signup-confirm-password">Confirm Password:</label>
+            <input type="password" id="signup-confirm-password" name="SignUpModel.ConfirmPassword" required>
+        </div>
+        <button type="submit">Sign Up</button>
+    </form>
+</div>
+
+<script>
+    function toggleForm() {
+        var selected = document.querySelector('input[name="formToggle"]:checked').value;
+        document.getElementById('login-form').style.display = selected === 'login' ? 'block' : 'none';
+        document.getElementById('signup-form').style.display = selected === 'signup' ? 'block' : 'none';
+    }
+
+    // Call once on load to set correct form
+    window.onload = toggleForm;
+</script>
